@@ -1,1 +1,3 @@
 # Hash
+
+Bare minimum hash
