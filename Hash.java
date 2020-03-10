@@ -12,20 +12,12 @@ public class Hash {
 	{
 		currentSize = 0;
 		hashArray = new DataItem[SIZE];
-//		DataItem temp = new DataItem(-1, null);
+		//use default key as -1 and value as null
 		for(int i =0; i< SIZE; i++)
 		{
-			hashArray[i] = null;
+			hashArray[i] = new DataItem(-1, null);
 		}
 	}
-	/*
-	 * hashTable uses hashFunction to get hash code and store it
-	 */
-//	public void hashTable(DataItem item)
-//	{
-//		int hashValue = hashFunction(item.getKey());
-//		hashArray[hashValue] = item;
-//	}
 	/*
 	 * hashFunction creates hashCode
 	 */
@@ -36,9 +28,10 @@ public class Hash {
 	/*
 	 * Search
 	 */
-	public DataItem search(int key)
+	public DataItem search(DataItem item)
 	{
 		//get the hash value or code
+		int key = item.getKey();
 		int hashValue = hashFunction(key);
 		
 		//find until an empty
@@ -47,7 +40,7 @@ public class Hash {
 			if(hashArray[hashValue].getKey() == key)
 				return hashArray[hashValue];
 			//find next cell
-			hashValue++;
+			++hashValue;
 			
 			//wrap around the table
 			hashValue %= SIZE;
@@ -59,8 +52,10 @@ public class Hash {
 	
 	public void insert(DataItem item) 
 	{
+		
 		//get hash code using hash function
-		int hashCode = hashFunction(item.getKey());
+		int hashCode = hashFunction(item.getKey());;
+		
 		if(currentSize == SIZE) {
 			//maybe throw an exception or resize the array
 			System.out.println("array is full");
@@ -69,9 +64,11 @@ public class Hash {
 		if(currentSize == 0)
 		{
 			hashArray[hashCode] = item;
+			currentSize++; // i missed this one.... damn..
 			return;
 		}
-		while(hashArray[hashCode] != null)
+		
+		while((hashArray[hashCode].getValue() != null) && (hashArray[hashCode].getKey() != -1))
 		{
 			//if taken, next cell (next cell)
 			hashCode++;
@@ -113,7 +110,7 @@ public class Hash {
 		{
 			if(hashArray[i] != null)
 			{
-				System.out.println(i + ":" + hashArray[i].getValue());
+				System.out.println(i + ": Value:" + hashArray[i].getValue()+ " key:" + hashArray[i].getKey());
 			}
 		}
 		return null;
